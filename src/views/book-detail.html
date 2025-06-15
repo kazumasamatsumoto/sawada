@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>本の詳細 - 読書リコメンデーションアプリ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/styles/main.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <h1>本の詳細</h1>
+        <nav class="nav">
+          <ul class="nav-list">
+            <li><a href="home.html">ホーム</a></li>
+            <li><a href="book-form.html">本の登録</a></li>
+            <li><a href="recommendations.html">リコメンド本</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main class="main container">
+      <div class="book-detail-container">
+        <div class="book-detail-header">
+          <h2 id="book-title" class="book-detail-title">読み込み中...</h2>
+          <div id="book-rating" class="book-detail-rating"></div>
+        </div>
+
+        <div class="book-detail-content">
+          <div class="book-info-section">
+            <h3>基本情報</h3>
+            <div class="info-grid">
+              <div class="info-item">
+                <label>著者</label>
+                <span id="book-author">-</span>
+              </div>
+              <div class="info-item">
+                <label>出版社</label>
+                <span id="book-publisher">-</span>
+              </div>
+              <div class="info-item">
+                <label>ジャンル</label>
+                <span id="book-genre" class="genre-tag">-</span>
+              </div>
+              <div class="info-item">
+                <label>ISBN</label>
+                <span id="book-isbn">-</span>
+              </div>
+              <div class="info-item">
+                <label>読了日</label>
+                <span id="book-readDate">-</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="book-notes-section" id="notes-section">
+            <h3>読書メモ</h3>
+            <div class="notes-content" id="book-notes">メモがありません</div>
+          </div>
+        </div>
+
+        <div class="book-detail-actions">
+          <button onclick="history.back()" class="btn btn-secondary">
+            戻る
+          </button>
+          <button id="edit-book" class="btn btn-primary">編集</button>
+          <button id="delete-book" class="btn btn-danger">削除</button>
+        </div>
+      </div>
+    </main>
+
+    <style>
+      .book-detail-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: var(--surface);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+      }
+
+      .book-detail-header {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-hover)
+        );
+        color: white;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      .book-detail-title {
+        margin: 0 0 1rem 0;
+        font-size: 2rem;
+        font-weight: 700;
+      }
+
+      .book-detail-rating {
+        font-size: 1.5rem;
+        margin-top: 0.5rem;
+      }
+
+      .book-detail-content {
+        padding: 2rem;
+      }
+
+      .book-info-section {
+        margin-bottom: 2rem;
+      }
+
+      .book-info-section h3 {
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .info-item label {
+        font-weight: 600;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .info-item span {
+        color: var(--text-primary);
+        font-size: 1.1rem;
+        padding: 0.5rem 0;
+      }
+
+      .genre-tag {
+        background: var(--primary-color);
+        color: white;
+        padding: 0.3rem 0.8rem !important;
+        border-radius: var(--radius-sm);
+        font-size: 0.9rem !important;
+        font-weight: 500;
+        display: inline-block;
+        width: fit-content;
+      }
+
+      .book-notes-section h3 {
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+      }
+
+      .notes-content {
+        background: var(--background);
+        padding: 1.5rem;
+        border-radius: var(--radius-sm);
+        border-left: 4px solid var(--primary-color);
+        line-height: 1.7;
+        color: var(--text-primary);
+        font-style: italic;
+      }
+
+      .book-detail-actions {
+        padding: 2rem;
+        background: var(--background);
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn-danger {
+        background: #dc2626;
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background: #b91c1c;
+      }
+
+      @media (max-width: 768px) {
+        .book-detail-container {
+          margin: 1rem;
+        }
+
+        .book-detail-header {
+          padding: 1.5rem;
+        }
+
+        .book-detail-title {
+          font-size: 1.5rem;
+        }
+
+        .info-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .book-detail-actions {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+
+    <script type="module">
+      import StorageService from "../js/services/StorageService.js";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const storageService = new StorageService();
+
+        // URLからIDを取得
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookId = urlParams.get("id");
+
+        if (!bookId) {
+          alert("本のIDが指定されていません。");
+          window.location.href = "home.html";
+          return;
+        }
+
+        // 本のデータを取得
+        const books = storageService.loadBooks();
+        const book = books.find((b) => b.id === bookId);
+
+        if (!book) {
+          alert("指定された本が見つかりませんでした。");
+          window.location.href = "home.html";
+          return;
+        }
+
+        // 本の情報を表示
+        document.getElementById("book-title").textContent = book.title;
+        document.getElementById("book-author").textContent =
+          book.author || "不明";
+        document.getElementById("book-publisher").textContent =
+          book.publisher || "不明";
+        document.getElementById("book-genre").textContent =
+          book.genre || "未分類";
+        document.getElementById("book-isbn").textContent = book.isbn || "不明";
+        document.getElementById("book-readDate").textContent = book.readDate
+          ? new Date(book.readDate).toLocaleDateString("ja-JP")
+          : "未設定";
+
+        // 評価を星で表示
+        const rating = book.rating || 0;
+        document.getElementById("book-rating").innerHTML =
+          "★".repeat(rating) + "☆".repeat(5 - rating) + ` (${rating}/5)`;
+
+        // メモの表示
+        const notesElement = document.getElementById("book-notes");
+        if (book.notes && book.notes.trim()) {
+          notesElement.textContent = book.notes;
+          notesElement.style.fontStyle = "normal";
+        } else {
+          notesElement.textContent = "メモがありません";
+          notesElement.style.fontStyle = "italic";
+          notesElement.style.color = "var(--text-secondary)";
+        }
+
+        // 削除ボタンの処理
+        document.getElementById("delete-book").addEventListener("click", () => {
+          if (
+            confirm(
+              `「${book.title}」を削除しますか？この操作は取り消せません。`
+            )
+          ) {
+            const updatedBooks = books.filter((b) => b.id !== bookId);
+            storageService.saveBooks(updatedBooks);
+            alert("本が削除されました。");
+            window.location.href = "home.html";
+          }
+        });
+
+        // 編集ボタンの処理（今後実装予定）
+        document.getElementById("edit-book").addEventListener("click", () => {
+          alert("編集機能は今後実装予定です。");
+        });
+      });
+    </script>
+  </body>
+</html>
