@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     displayBooks.forEach((book) => {
       const bookCard = document.createElement("div");
       bookCard.className = "book-card";
-      bookCard.style.cursor = "pointer";
       bookCard.innerHTML = `
                 <h3>${book.title}</h3>
                 <p class="author">著者: ${book.author}</p>
@@ -37,11 +36,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                   book.rating
                 )}${"☆".repeat(5 - book.rating)}</div>
             `;
-      // クリックイベントを追加
-      bookCard.addEventListener("click", () => {
-        // 本のIDをURLパラメータとして詳細ページに遷移
-        window.location.href = `book-detail.html?id=${book.id}`;
-      });
       bookListElement.appendChild(bookCard);
     });
   }

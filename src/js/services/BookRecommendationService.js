@@ -1,6 +1,26 @@
 class BookRecommendationService {
   constructor() {
     this.baseUrl = "https://www.googleapis.com/books/v1/volumes";
+    this.lastRecommendations = [];
+  }
+
+  async generateRecommendations() {
+    try {
+      const storageService = await import("./StorageService.js");
+      const storage = new storageService.default();
+      const books = storage.loadBooks();
+
+      const recommendations = await this.getRecommendations(books);
+      this.lastRecommendations = recommendations;
+      return recommendations;
+    } catch (error) {
+      console.error("Error generating recommendations:", error);
+      return [];
+    }
+  }
+
+  getLastRecommendations() {
+    return this.lastRecommendations || [];
   }
 
   async getRecommendations(books) {
