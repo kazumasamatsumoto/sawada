@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>本の登録 - 読書リコメンデーションアプリ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/styles/main.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <h1>本の登録</h1>
+        <nav class="nav">
+          <ul class="nav-list">
+            <li><a href="home.html">ホーム</a></li>
+            <li><a href="book-form.html">本の登録</a></li>
+            <li><a href="recommendations.html">リコメンド本</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main class="main container">
+      <form id="bookForm">
+        <h1>本の登録</h1>
+
+        <div class="form-group">
+          <label for="isbn">ISBN: <span class="required">*</span></label>
+          <div class="isbn-input-group">
+            <input type="text" id="isbn" name="isbn" required />
+            <button type="button" id="fetchBookInfo" class="secondary-button">
+              情報を取得
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="title">タイトル:</label>
+          <input type="text" id="title" name="title" readonly />
+        </div>
+
+        <div class="form-group">
+          <label for="author">著者:</label>
+          <input type="text" id="author" name="author" readonly />
+        </div>
+
+        <div class="form-group">
+          <label for="publisher">出版社:</label>
+          <input type="text" id="publisher" name="publisher" readonly />
+        </div>
+
+        <div class="form-group">
+          <label for="genre">ジャンル:</label>
+          <input type="text" id="genre" name="genre" readonly />
+        </div>
+
+        <div class="form-group">
+          <label for="rating"
+            >評価 (1-5): <span class="required">*</span></label
+          >
+          <input
+            type="number"
+            id="rating"
+            name="rating"
+            min="1"
+            max="5"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="readDate">読了日:</label>
+          <input type="date" id="readDate" name="readDate" />
+        </div>
+
+        <div class="form-group">
+          <label for="notes">メモ:</label>
+          <textarea id="notes" name="notes"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary-button">保存</button>
+          <a href="home.html" class="back-button">戻る</a>
+        </div>
+      </form>
+    </main>
+    <style>
+      .back-button {
+        display: inline-block;
+        margin-left: 10px;
+        padding: 8px 16px;
+        text-decoration: none;
+        color: #666;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    </style>
+    <script type="module" src="../js/app.js"></script>
+    <script>
+      // ローカルストレージ用のサービス
+      class StorageService {
+        saveBooks(books) {
+          localStorage.setItem("books", JSON.stringify(books));
+        }
+
+        loadBooks() {
+          const books = localStorage.getItem("books");
+          return books ? JSON.parse(books) : [];
+        }
+
+        addBook(newBook) {
+          const books = this.loadBooks();
+          books.push(newBook);
+          this.saveBooks(books);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const storage = new StorageService();
+        const form = document.getElementById("bookForm");
+
+        // フォームの送信処理
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          // フォームデータの取得
+          const formData = new FormData(form);
+          const newBook = {
+            id: Date.now().toString(), // タイムスタンプをIDとして使用
+            isbn: formData.get("isbn"),
+            title: formData.get("title"),
+            author: formData.get("author"),
+            publisher: formData.get("publisher"),
+            genre: formData.get("genre"),
+            rating: parseInt(formData.get("rating")),
+            readDate: formData.get("readDate"),
+            notes: formData.get("notes"),
+          };
+
+          try {
+            // 本をローカルストレージに保存
+            storage.addBook(newBook);
+
+            // 成功メッセージを表示
+            alert("本が登録されました");
+
+            // ホームページへ遷移
+            window.location.href = "home.html";
+          } catch (error) {
+            alert("保存中にエラーが発生しました: " + error.message);
+          }
+        });
+
+        // ISBNから本の情報を取得する機能
+        const fetchButton = document.getElementById("fetchBookInfo");
+        const isbnInput = document.getElementById("isbn");
+
+        fetchButton.addEventListener("click", () => {
+          const isbn = isbnInput.value.trim();
+          if (!isbn) {
+            alert("ISBNを入力してください");
+            return;
+          }
+
+          // ここではデモデータを使用します
+          // 実際のアプリケーションではAPIを使用して本の情報を取得します
+          const demoBookInfo = {
+            title: "サンプル本",
+            author: "サンプル著者",
+            publisher: "サンプル出版社",
+            genre: "小説",
+          };
+
+          // フォームに情報を自動入力
+          document.getElementById("title").value = demoBookInfo.title;
+          document.getElementById("author").value = demoBookInfo.author;
+          document.getElementById("publisher").value = demoBookInfo.publisher;
+          document.getElementById("genre").value = demoBookInfo.genre;
+        });
+      });
+    </script>
+  </body>
+</html>

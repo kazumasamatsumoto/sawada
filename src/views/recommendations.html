@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>リコメンド本 - 読書リコメンデーションアプリ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/styles/main.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <h1>リコメンド本</h1>
+        <nav class="nav">
+          <ul class="nav-list">
+            <li><a href="home.html">ホーム</a></li>
+            <li><a href="book-form.html">本の登録</a></li>
+            <li><a href="recommendations.html">リコメンド本</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main class="main container">
+      <section id="recommendations-list">
+        <div class="recommendations-header">
+          <h2>あなたにおすすめの本</h2>
+          <div class="recommendations-actions">
+            <button id="refresh-recommendations" class="btn btn-primary">
+              更新する
+            </button>
+            <button id="show-recommendations" class="btn btn-secondary">
+              表示する
+            </button>
+          </div>
+        </div>
+        <div class="copilot-help">
+          <p>
+            <strong>💡 使い方:</strong><br />
+            1.
+            「更新する」をクリックすると、あなたの読書履歴から新しいリコメンド本を生成します<br />
+            2.
+            「表示する」をクリックすると、現在のリコメンド本のリストを表示します
+          </p>
+          <p class="info">
+            <strong>仕組み:</strong>
+            あなたがよく読むジャンルと、それに関連するジャンルの本をリコメンドします
+          </p>
+        </div>
+        <ul id="recommendations" class="recommendation-list"></ul>
+      </section>
+    </main>
+    <script type="module" src="../js/app.js"></script>
+  </body>
+</html>

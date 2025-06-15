@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ホーム - 読書リコメンデーションアプリ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/styles/main.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <h1>読書リコメンデーションアプリ</h1>
+        <nav class="nav">
+          <ul class="nav-list">
+            <li><a href="home.html">ホーム</a></li>
+            <li><a href="book-form.html">本の登録</a></li>
+            <li><a href="recommendations.html">リコメンド本</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main class="main container">
+      <section class="welcome-section">
+        <h2>ようこそ！</h2>
+        <p>
+          このアプリケーションでは、あなたの読書履歴に基づいて次に読むべき本をリコメンドします。
+        </p>
+      </section>
+      <section class="book-list-section">
+        <h2>登録済みの本</h2>
+        <div id="book-list" class="recommendation-list">
+          <!-- 本のリストは JavaScript で動的に生成されます -->
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2025 読書リコメンデーションアプリ</p>
+      </div>
+    </footer>
+    <script type="module" src="../js/app.js">
+      // 初期データ
+              const mockBooks = [
+                  {
+                      id: "1",
+                      title: "羊をめぐる冒険",
+                      author: "村上春樹",
+                      publisher: "講談社",
+                      genre: "小説",
+                      isbn: "9784061848771",
+                      readDate: "2023-01-15",
+                      rating: 5,
+                      notes: "不思議な世界観と深いストーリー展開が印象的"
+                  },
+                  {
+                      id: "2",
+                      title: "人間失格",
+                      author: "太宰治",
+                      publisher: "新潮社",
+                      genre: "小説",
+                      isbn: "9784101006051",
+                      readDate: "2023-02-20",
+                      rating: 4,
+                      notes: "人間の本質を深く掘り下げた名作"
+                  },
+                  {
+                      id: "3",
+                      title: "リファクタリング",
+                      author: "マーティン・ファウラー",
+                      publisher: "オーム社",
+                      genre: "技術書",
+                      isbn: "9784274224546",
+                      readDate: "2023-03-10",
+                      rating: 5,
+                      notes: "コードの品質を改善するための実践的なガイド"
+                  },
+                  {
+                      id: "4",
+                      title: "コンビニ人間",
+                      author: "村田沙耶香",
+                      publisher: "文藝春秋",
+                      genre: "小説",
+                      isbn: "9784167911645",
+                      readDate: "2023-04-15",
+                      rating: 4,
+                      notes: "現代社会における人間の在り方を問う作品"
+                  },
+                  {
+                      id: "5",
+                      title: "ゼロ秒思考",
+                      author: "赤羽雄二",
+                      publisher: "ダイヤモンド社",
+                      genre: "ビジネス",
+                      isbn: "9784478025819",
+                      rating: 5,
+                      readDate: "2023-05-01",
+                      notes: "思考の速度と質を向上させるための実践的な方法論"
+                  }
+              ];
+              // ブラウザのローカルストレージにデータを保存・読み込みするためのサービス
+              class StorageService {
+                  saveBooks(books) {
+                      localStorage.setItem('books', JSON.stringify(books));
+                  }
+
+                  loadBooks() {
+                      const books = localStorage.getItem('books');
+                      return books ? JSON.parse(books) : [];
+                  }
+
+                  clearBooks() {
+                      localStorage.removeItem('books');
+                  }
+              }
+
+              document.addEventListener('DOMContentLoaded', () => {
+                  const storage = new StorageService();
+                  const bookListElement = document.getElementById('book-list');
+
+                  // ローカルストレージからデータを読み込む
+                  let books = storage.loadBooks();
+
+                  // ローカルストレージが空の場合は初期データを保存
+                  if (books.length === 0) {
+                      storage.saveBooks(mockBooks);
+                      books = mockBooks;
+                  }
+
+                  // 本のリストを表示
+                  books.forEach(book => {
+                      const bookCard = document.createElement('div');
+                      bookCard.className = 'book-card';
+                      bookCard.innerHTML = `
+                          <h3>${book.title}</h3>
+                          <p class="author">著者: ${book.author}</p>
+                          <p class="genre">ジャンル: ${book.genre}</p>
+                          <div class="rating">評価: ${'★'.repeat(book.rating)}${'☆'.repeat(5-book.rating)}</div>
+                      `;
+                      bookListElement.appendChild(bookCard);
+                  });
+              });
+    </script>
+    <!-- 削除: ここにあった初期データは不要です -->
+  </body>
+</html>
